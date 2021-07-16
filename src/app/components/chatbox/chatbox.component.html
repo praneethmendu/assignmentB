@@ -1,0 +1,34 @@
+<div style="height: 100%">
+  <div class="chatbox">
+    <!-- 
+    <div *ngFor="let message of allMessages">
+      <div class="message" [class.ownmessage]='message.senderId==userId'>
+        <mat-card style="max-width: 70%;">{{message| json}}</mat-card>
+      </div>
+    </div> -->
+
+    <div class="newmsg">
+      <mat-form-field appearance="outline" style="width: 85%;">
+        <input matInput [(ngModel)]='newMsg' placeholder="new message">
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="send-button" (click)="sendMsg()" [disabled]="!newMsg">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+
+
+    <div #scrollMe class="scroll-me">
+      <div *ngFor="let message of allMessages">
+        <div class="message" [class.ownmessage]='message.senderId==userId'>
+          <mat-card style="max-width: 70%;" matTooltip="{{getToolTip(message.senderId)}}">
+            <div class="usr-name" *ngIf="message.senderId!=userId">
+              {{getUser(message.senderId)}}
+            </div>
+            <div class="msg-text"> {{message.message}}</div>
+            <div class="timestamp">{{formatTs(message.timestamp)}}</div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

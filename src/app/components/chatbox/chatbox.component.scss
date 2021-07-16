@@ -1,0 +1,73 @@
+.chatbox {
+    width: 100%;
+    height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 1% 2% 0 2%;
+    box-sizing: border-box;
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
+.message {
+    padding: 1%;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.message .mat-card {
+    padding: 0%;
+    max-width: 70%;
+    min-width: 14em;
+}
+
+.scroll-me {
+    overflow: scroll;
+    width: 100%;
+}
+
+.usr-name {
+    text-align: start;
+    font-size: 0.7em;
+    color: #abc8ff;
+    padding: 0 0.6em 0 0.6em;
+}
+
+.msg-text {
+    padding: 0 1em 0 1em;
+}
+
+.ownmessage .msg-text {
+    padding: 1em 1em 0 1em;
+}
+
+.timestamp {
+    text-align: end;
+    font-size: 0.5em;
+    color: #a6a6a6;
+    padding: 0 0.6em 0 0.6em;
+}
+.ownmessage {
+    flex-direction: row-reverse;
+}
+
+.send-button {
+    border-radius: 2em;
+    margin: 0 0 0 1%;
+    padding: 0 0 0.4% 0;
+    background: #141E30;
+}
+
+::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+       color: white;
+    }
+    mat-form-field {
+       .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: white;
+       }
+    }
+ }

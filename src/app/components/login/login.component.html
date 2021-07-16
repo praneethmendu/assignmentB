@@ -1,0 +1,19 @@
+<div class="frame">
+  <div class="left">
+    <div class="center">
+      <div class="greydrop">LogIn for </div>
+      <br><br><br>
+      <div class="greydrop">&nbsp;&nbsp;&nbsp;coolChat !</div>
+    </div>
+  </div>
+  <div class="right">
+    <mat-form-field appearance="fill" class="tiny">
+      <mat-label>User Id</mat-label>
+      <input [(ngModel)]="inText" type="number" matInput>
+    </mat-form-field>
+    <div *ngIf="showHint" style="color: crimson">no such user !</div>
+    <br />
+    <button mat-raised-button color="basic" class="tiny" (click)="checkUser()"
+      style="background: #141E30;">login</button>
+  </div>
+</div>

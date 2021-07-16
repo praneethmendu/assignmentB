@@ -1,0 +1,26 @@
+<app-login *ngIf="!userPresent" (login)="getUser()" [allUsers]="allUsers"></app-login>
+<mat-sidenav-container *ngIf="userPresent" class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <app-conversations [userId]="userId" (change)="getChat($event)" (newConversation)="openDialog()">
+    </app-conversations>
+  </mat-sidenav>
+  <mat-sidenav-content class="content-box">
+    <mat-toolbar color="basic" class="toolbar">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <h2 style="text-shadow: 3px 2px #333333;">Cool Chat</h2>
+      <div class="toright">
+        <button mat-raised-button color="basic" class="chiplike" (click)="deleteUser()" style="background: #141E30;">
+          {{userName}}
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+
+    <app-chatbox [conversationId]="conversationId" [userId]="userId" [allUsers]="allUsers" class="chatbox">
+    </app-chatbox>
+  </mat-sidenav-content>
+</mat-sidenav-container>

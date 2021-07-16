@@ -1,0 +1,32 @@
+<div class="conv-nav">
+  <br />
+  <mat-expansion-panel class="unpadedext">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        private
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list *ngFor="let conv of priv">
+      <a mat-list-item (click)="redirect(conv.conversation.conversationId)">{{conv.conversation.id}}</a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <br />
+  <mat-expansion-panel class="unpadedext">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        groups
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list *ngFor="let conv of group">
+      <a mat-list-item (click)="redirect(conv.conversation.conversationId)">{{conv.conversation.name}}</a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</div>
+<div class="addnew">
+  <button mat-fab color="basic" (click)="addChat()" style="background: #141E30;">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

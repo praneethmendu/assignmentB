@@ -1,0 +1,445 @@
+swagger: "2.0"
+info:
+  description: "api for assignment."
+  version: "0.0.1"
+  title: "bunq assignment"
+  contact:
+    email: "praneethmendu@gmail.com"
+host: "assignment.bunq.com"
+basePath: "/"
+tags:
+- name: "user"
+  description: "get user/users"
+- name: "conversation"
+  description: "Access to conversation"
+schemes:
+- "http"
+paths:
+  /users:
+    get:
+      tags:
+      - "user"
+      summary: "get all users"
+      description: "get all users"
+      operationId: "allUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: "Invalid status value"
+  /user/{userID}:
+    get:
+      tags:
+      - "user"
+      summary: "Finds User by ID"
+      description: "Finds User by ID"
+      operationId: "userByID"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "Invalid status value"
+  /conversation/{conversationId}/new/{lastMessageId}:
+    get:
+      tags:
+      - "conversation"
+      summary: "get new messages"
+      description: "Poll all new messages after lastMessageId"
+      operationId: "getNewMessages"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "lastMessageId"
+        in: "path"
+        description: "last Message ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Message"
+        "400":
+          description: "Invalid status value"
+  /conversation/{conversationId}/message/limited:
+    get:
+      tags:
+      - "conversation"
+      summary: "get limited messages"
+      description: "Get a limited amount of messages."
+      operationId: "limitedMessages"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "limit"
+        in: "query"
+        description: "limit"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "offset"
+        in: "query"
+        description: "offset"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Message"
+        "400":
+          description: "Invalid status value"
+
+  /conversation/{conversationId}/lastseen/{userId}:
+    get:
+      tags:
+      - "conversation"
+      summary: "Get last seen"
+      description: "Get the last seen timestamp for the given user"
+      operationId: "getLastSeen"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "userId"
+        in: "path"
+        description: "last Message ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Time"
+        "400":
+          description: "Invalid status value"
+
+  /conversation/{conversationId}:
+    get:
+      tags:
+      - "conversation"
+      summary: "get conversation"
+      description: "Get the conversation details for one conversation."
+      operationId: "getConversation"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Conversation"
+        "400":
+          description: "Invalid tag value"
+  /conversation/user/{userId}:
+    get:
+      tags:
+      - "conversation"
+      summary: "get conversation by user ID"
+      description: "Array of all conversations for the user."
+      operationId: "conversationByUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Conversation"
+        "400":
+          description: "Invalid tag value"
+  /conversation/{conversationId}/message/send:
+    post:
+      tags:
+      - "conversation"
+      summary: "conversationId"
+      description: "send a message"
+      operationId: "sendMsg"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "message"
+        in: "body"
+        description: "body message"
+        required: true
+        schema:
+          type: object
+          required:
+            - message
+            - senderId
+          properties:
+            message:
+              type: "integer"
+              format: "int64"
+            senderId:
+              type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "not found"
+  /conversation/personal:
+    post:
+      tags:
+      - "conversation"
+      summary: "personal conversation"
+      description: "Create a new personal conversation"
+      operationId: "addPersonalConversaion"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - in: body
+          name: userList
+          description: The users to add.
+          schema:
+            type: "object"
+            properties:
+              users:
+                type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "Invalid tag value"
+  /conversation/group:
+    post:
+      tags:
+      - "conversation"
+      summary: "group conversation"
+      description: "Create a new group conversation"
+      operationId: "addGroupConversaion"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - in: body
+          name: userList
+          description: name and users to add.
+          schema:
+            type: "object"
+            properties:
+              users:
+                type: "string"
+              name:
+                type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "Invalid tag value"
+  /conversation/{conversationId}/seen/{userId}:
+    put:
+      tags:
+      - "conversation"
+      summary: "personal conversation"
+      description: "Create a new personal conversation"
+      operationId: "putLastSeen"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "conversationId"
+        in: "path"
+        description: "conversation ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "userId"
+        in: "path"
+        description: "last Message ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Time"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "not found"
+
+definitions:
+  Conversation:
+    type: "object"
+    properties:
+      conversation:
+        $ref: '#/definitions/ConversationData'
+      users:
+        type: 'array'
+        items:
+          $ref: '#/definitions/ConversationUser'
+  ConversationData:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"  
+      conversationId:
+        type: "integer"
+        format: "int64"
+      is_owner:
+        type: "integer"
+        format: "int64"
+      userid:
+        type: "integer"
+        format: "int64"    
+      status:
+        type: "integer"
+        format: "int64"    
+      lastseen:
+        type: "string"
+      name:
+        type: "string"
+      type:
+        type: "integer"
+        format: "int64"
+  ConversationUser:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      conversationId:
+        type: "integer"
+        format: "int64"
+      is_owner:
+        type: "integer"
+        format: "int64"
+      userid:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "integer"
+        format: "int64"
+      lastseen:
+        type: "string"
+  Message:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      senderId:
+        type: "integer"
+        format: "int64"
+      message:
+        type: "string"
+      timestamp:
+        type: "string"
+      conversationid:
+        type: "string"
+      status:
+        type: "string"      
+    xml:
+      name: "Order"
+  Time:
+    type: "object"
+    properties:
+      lastseen:
+        type: "string"
+    xml:
+      name: "Time"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "User"
